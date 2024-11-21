@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical-2</title>
+    <style>
+        body{
+            background-color: blanchedalmond;
+        }
+        table {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px;
+        }
+        input, select {
+            width: 100%;
+        }
+        .submit {
+            text-align: center;
+        }
+    </style>
+    <script>
+        function validateForm(){
+            var name=document.getElementById("name").value;
+            var phone=document.getElementById("phone").value;
+            var password=document.getElementById("password").value;
+            var email=document.getElementById("email").value;
+            var dob=new Date(document.getElementById("dob").value);
+            if(name=='' || phone=='' || password=='' || email=='' || dob==''){
+                alert("Please fill all the fields");
+                return false;
+            }
+            i=0;
+            for(i=0;i<name.length;i++){
+                if (name[i]>=0 && name[i]<=9){
+                    alert("Name must be alphabets");
+                    return false
+                }
+            }
+            if(phone.length!=10){
+                alert("Phone number must be exactly 10 digits");
+                return false;
+            }
+            i=0;
+            for(i=0;i<phone.length;i++){
+                if (phone[i]>='a' && phone[i]<='z' || phone[i]>='A' && phone[i]<='Z'){
+                    alert("Phone no. must not have alphabets");
+                    return false
+                }
+            }
+            if(password.length<8){
+                alert("Password must be atleast 8 characters long");
+                return false;
+            }
+            today=new Date();
+            if(dob>today){
+                alert("Date of birth cannot be greated than today's date");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>    
+    <h2 style="text-align: center;">Registration Form</h2>
+    <form onsubmit="return validateForm()">
+        <table border="1">
+            <tr>
+                <td><label for="name">Full Name:</label></td>
+                <td><input type="text" id="name" name="name" ></td>
+            </tr>
+            <tr>
+                <td><label for="email">Email:</label></td>
+                <td><input type="email" id="email" name="email" ></td>
+            </tr>
+            <tr>
+                <td><label for="phone">Phone:</label></td>
+                <td><input type="tel" id="phone" name="phone"></td>
+            </tr>
+            <tr>
+                <td><label for="gender">Gender:</label></td>
+                <td>
+                    <select id="gender" name="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="password">Password:</label></td>
+                <td><input type="password" id="password" name="password" ></td>
+            </tr>
+            <tr>
+                <td><label for="dob">Date of Birth:</label></td>
+                <td><input type="date" id="dob" name="dob"></td>
+            </tr>
+            <tr class="submit">
+                <td colspan="2">
+                    <input type="submit" value="Register">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

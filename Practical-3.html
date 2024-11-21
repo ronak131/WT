@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical-3</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: blanchedalmond;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: black;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid whitesmoke;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: blue;
+        }
+
+        .transactions, .balance {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: white;
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid wheat;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Money Tracker</h1>
+        <div>
+            <input type="text" id="description" placeholder="Description">
+            <input type="number" id="amount" placeholder="Amount">
+            <select id="type">
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+            </select>
+            <button type="button" onclick="addTransaction()">Add Transaction</button>
+            <button type="button" onclick="removeTransaction()">Remove Transaction</button>
+        </div>
+        <div class="transactions">
+            <h2>Transactions</h2>
+            <ul id="transaction-list"></ul>
+        </div>
+        <div class="balance">
+            <h2>Balance: ₹<span id="balance">0.00</span></h2>
+        </div>
+    </div>
+
+    <script>
+        let balance = 0;
+
+        function addTransaction() {
+            var description = document.getElementById("description").value;
+            var amount = parseFloat(document.getElementById("amount").value);
+            var type = document.getElementById("type").value;
+
+            if (description && !isNaN(amount)) {
+                var ul = document.getElementById("transaction-list");
+                var li = document.createElement("li");
+
+                li.innerHTML = `${description} - ₹${amount} (${type})`;
+                li.setAttribute("data-description", description);
+                li.setAttribute("data-amount", amount);
+                li.setAttribute("data-type", type); 
+                ul.appendChild(li);
+
+                if (type === "income") {
+                    balance += amount;
+                } else {
+                    balance -= amount;
+                }
+                document.getElementById("balance").textContent = balance.toFixed(2);
+
+                document.getElementById("description").value = "";
+                document.getElementById("amount").value = "";
+            }
+        }
+
+        function removeTransaction() {
+            var description = document.getElementById("description").value;
+            var ul = document.getElementById("transaction-list");
+            for (let i = ul.children.length - 1; i >= 0; i--) {
+                if (ul.children[i].getAttribute("data-description") === description) {
+                    let amount = parseFloat(ul.children[i].getAttribute("data-amount"));
+                    let type = ul.children[i].getAttribute("data-type");
+                    if (type === "income") {
+                        balance -= amount;
+                    } else {
+                        balance += amount;
+                    }
+                    ul.removeChild(ul.children[i]);
+                    document.getElementById("balance").textContent = balance.toFixed(2);
+                }
+            }
+            document.getElementById("description").value = "";
+        }
+    </script>
+</body>
+</html>
